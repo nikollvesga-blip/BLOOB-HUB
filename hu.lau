@@ -1,0 +1,58 @@
+-- Servicios
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- 1️⃣ Cambiar colores y traje al estilo Noli
+-- Ajusta los colores según quieras que se vea más parecido
+local function aplicarTrajeNoli()
+    local bodyColors = Instance.new("BodyColors")
+    bodyColors.HeadColor = BrickColor.new("Really black")
+    bodyColors.TorsoColor = BrickColor.new("Really black")
+    bodyColors.LeftArmColor = BrickColor.new("Really black")
+    bodyColors.RightArmColor = BrickColor.new("Really black")
+    bodyColors.LeftLegColor = BrickColor.new("Really black")
+    bodyColors.RightLegColor = BrickColor.new("Really black")
+    bodyColors.Parent = character
+
+    -- Puedes añadir Shirt y Pants si quieres
+    -- local shirt = Instance.new("Shirt")
+    -- shirt.ShirtTemplate = "rbxassetid://TU_SHIRT_ID"
+    -- shirt.Parent = character
+    -- local pants = Instance.new("Pants")
+    -- pants.PantsTemplate = "rbxassetid://TU_PANTS_ID"
+    -- pants.Parent = character
+end
+
+-- 2️⃣ Animación de caminar estilo Noli
+local function aplicarAnimacion()
+    local animation = Instance.new("Animation")
+    animation.AnimationId = "rbxassetid://TU_ANIMACION_DE_CAMINAR" -- Aquí puedes poner un asset público similar a Noli
+    local track = humanoid:LoadAnimation(animation)
+    track:Play()
+end
+
+-- 3️⃣ Aura o efecto épico
+local function crearAura()
+    local aura = Instance.new("Part")
+    aura.Size = Vector3.new(5,6,5)
+    aura.Transparency = 0.7
+    aura.Anchored = true
+    aura.CanCollide = false
+    aura.BrickColor = BrickColor.new("Bright blue")
+    aura.Material = Enum.Material.Neon
+    aura.Parent = character
+
+    RunService.RenderStepped:Connect(function()
+        if character.PrimaryPart then
+            aura.CFrame = character.PrimaryPart.CFrame
+        end
+    end)
+end
+
+-- Ejecutar funciones
+aplicarTrajeNoli()
+aplicarAnimacion()
+crearAura()
